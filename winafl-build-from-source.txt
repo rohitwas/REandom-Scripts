@@ -1,0 +1,27 @@
+Steps to Build WinAFL from source. 
+(* PREREQS: You need to download both winafl and dynamoRIO. You also need Visual Studio)
+
+a) open Visual Studio Command Prompt (2017 in my case)
+b) mkdir build32 in the winafl source directory
+c) cd build32
+d) Add the CMAKE_PREFIX_PATH to C:\Users\test\Desktop\winafl-experimental-build-RM\winafl-master\CMakeLists.txt such that it points to the cmake dir within DynamoRIO directory
+   ....
+   set(DynamoRIO_LOG_COMPATIBILITY on)
+   #ADD_THIS_LINE set(CMAKE_PREFIX_PATH "C:\\Users\\test\\Desktop\\DynamoRIO-Windows-6.2.0-2\\cmake\\")
+   find_package(DynamoRIO)
+   if (NOT DynamoRIO_FOUND)
+   ....
+e) C:\Users\test\Desktop\winafl-experimental-build-RM\winafl-master\build32\Release>"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\"cmake.exe --config Release --build ..\
+f) cd ..
+g) MSBuild.exe ALL_BUILD.vcxproj /p:Configuration=Release
+h) Enjoy!
+
+*Note for x64 builds just specify the "-A x64" when invoking cmake(which itself is a 32 bit bin) and cmake will find and setup relevant cl and lnk for x64 VisualStudo
+...
+b) mkdir build 64
+c) cd build64
+d) NO CHANGE
+e) C:\Users\test\Desktop\winafl-experimental-build-RM\winafl-master\build64>"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\"cmake
+.exe --config Release -A x64 --build ..\
+g) MSBuild.exe ALL_BUILD.vcxproj /p:Configuration=Release
+h) Enjoy! (x64)
